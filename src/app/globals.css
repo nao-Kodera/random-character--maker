@@ -40,6 +40,13 @@ h2 { margin-bottom: 0; font-size: 1.3rem; letter-spacing: -.02em; }
 .field-card__heading h2 { color: #cbc5d6; font-size: .85rem; font-weight: 700; }
 .lock-state { border-radius: 999px; padding: 4px 7px; background: #4d2d7d; color: #e2d3ff; font-size: .66rem; font-weight: 700; }
 .field-card__value { display: flex; min-height: 60px; flex: 1; align-items: center; padding: 12px 0; font-size: 1.17rem; font-weight: 800; line-height: 1.45; }
+.select-control { display: flex; width: 100%; min-width: 0; align-items: center; gap: 8px; }
+.select-control select { width: 100%; min-width: 0; appearance: none; border: 1px solid #625775; border-radius: 8px; padding: 9px 34px 9px 10px; background: #110f17 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%23c4a1ff' d='m6 8-6-6 1.4-1.4L6 5.2 10.6.6 12 2z'/%3E%3C/svg%3E") no-repeat right 11px center; color: var(--text); cursor: pointer; font: inherit; font-size: .98rem; font-weight: 800; }
+.select-control select:hover:not(:disabled) { border-color: #a27be0; }
+.select-control select:disabled { cursor: not-allowed; opacity: .58; }
+.select-stack { display: grid; width: 100%; gap: 8px; }
+.select-stack--colors .select-control { display: grid; grid-template-columns: 76px minmax(0, 1fr); }
+.color-select-label { display: inline-flex; align-items: center; gap: 6px; color: #d3cddd; font-size: .74rem; }
 .field-card__actions { display: flex; gap: 8px; }
 .field-button, .copy-button { display: inline-flex; min-height: 34px; align-items: center; justify-content: center; gap: 6px; border: 1px solid #4a435a; border-radius: 8px; padding: 5px 9px; background: #211e2b; color: #d9d3e5; cursor: pointer; font-size: .75rem; font-weight: 700; transition: background .15s, border-color .15s; }
 .field-button:hover:not(:disabled), .copy-button:hover { border-color: #9475c9; background: #2b2538; }
@@ -52,8 +59,7 @@ h2 { margin-bottom: 0; font-size: 1.3rem; letter-spacing: -.02em; }
 .color-list span { display: inline-flex; align-items: center; gap: 7px; }
 .color-dot { width: 12px; height: 12px; border: 1px solid #ffffff73; border-radius: 50%; background: currentColor; }
 .color-黒 { color: #16141b; }.color-白 { color: #f5f4f7; }.color-赤 { color: #e34f5e; }.color-青 { color: #4d8fe8; }.color-緑 { color: #53b978; }.color-黄 { color: #e3c652; }.color-紫 { color: #a86de8; }.color-ピンク { color: #e985bd; }.color-橙 { color: #ed9a49; }.color-金 { color: #cda533; }.color-銀 { color: #aeb5c0; }.color-水色 { color: #78cde9; }.color-紺 { color: #354985; }.color-藍 { color: #5364b1; }.color-茶 { color: #986b47; }.color-灰 { color: #9aa1ad; }.color-ベージュ { color: #d4ba91; }.color-エメラルド { color: #3bba96; }.color-クリーム { color: #f4e4ad; }
-.dice-list { gap: 12px; }
-.die { display: grid; width: 39px; height: 39px; place-items: center; border: 1px solid #aa82ee; border-radius: 9px; background: #2e1f45; color: #f1eaff; font-size: 1.25rem; }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; }
 
 .prompt-section { margin-top: 50px; border: 1px solid var(--border); border-radius: 16px; padding: 22px; background: #121019; }
 .prompt-section__heading { align-items: center; margin-bottom: 16px; }

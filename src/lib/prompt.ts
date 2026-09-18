@@ -15,7 +15,6 @@ export function createPrompt(character: Character): string {
 メインカラー：${character.colors[0]}
 サブカラー：${character.colors[1]}
 キーワード：${character.keywords.join(" / ")}
-2D6：${character.dice.join(" / ")}
 
 【立ち絵指定】
 

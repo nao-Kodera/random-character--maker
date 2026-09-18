@@ -1,7 +1,21 @@
 "use client";
 
 import { useState } from "react";
-import type { Character, CharacterFieldKey } from "@/data/characterOptions";
+import {
+  ageGroups,
+  bodyTypes,
+  colors,
+  features,
+  genders,
+  hairLengths,
+  hairStyles,
+  heights,
+  keywords,
+  occupations,
+  races,
+  type Character,
+  type CharacterFieldKey,
+} from "@/data/characterOptions";
 import { createPrompt } from "@/lib/prompt";
 import { generateCharacter, rerollCharacterField } from "@/lib/random";
 import { CharacterField } from "@/components/CharacterField";
@@ -20,10 +34,10 @@ const fieldLabels: Record<CharacterFieldKey, string> = {
   features: "目立つ特徴",
   colors: "イメージカラー",
   keywords: "キーワード",
-  dice: "2D6",
 };
 
 const fieldOrder = Object.keys(fieldLabels) as CharacterFieldKey[];
+const scalarOptions = { gender: genders, ageGroup: ageGroups, race: races, occupation: occupations, height: heights, bodyType: bodyTypes, hairLength: hairLengths, hairStyle: hairStyles } as const;
 
 function makeUnlockedState(): Record<CharacterFieldKey, boolean> {
   return fieldOrder.reduce((locks, key) => ({ ...locks, [key]: false }), {} as Record<CharacterFieldKey, boolean>);
@@ -42,6 +56,10 @@ export function CharacterGenerator() {
     setCharacter((current) => rerollCharacterField(current, field));
   };
 
+  const updateField = <Key extends CharacterFieldKey>(field: Key, value: Character[Key]) => {
+    setCharacter((current) => ({ ...current, [field]: value }));
+  };
+
   const randomizeUnlocked = () => {
     const nextCharacter = generateCharacter();
     setCharacter((current) => {
@@ -53,17 +71,38 @@ export function CharacterGenerator() {
     });
   };
 
+  const renderSelect = <Value extends string | number>(label: string, value: Value, options: readonly Value[], onChange: (value: Value) => void, isDisabled: boolean) => (
+    <label className="select-control">
+      <span className="sr-only">{label}</span>
+      <select aria-label={label} value={value} disabled={isDisabled} onChange={(event) => onChange(event.target.value as Value)}>
+        {options.map((option) => <option value={option} key={option}>{option}</option>)}
+      </select>
+    </label>
+  );
+
   const valueFor = (field: CharacterFieldKey) => {
+    const isLocked = locks[field];
     switch (field) {
       case "features":
       case "keywords":
-        return <div className="tag-list">{character[field].map((value) => <span className="tag" key={value}>{value}</span>)}</div>;
+        return <div className="select-stack">
+          {character[field].map((value, index) => renderSelect(`${fieldLabels[field]} ${index + 1}`, value, [value, ...[...({ features, keywords }[field])].filter((option) => option !== character[field][1 - index])], (nextValue) => {
+            const nextValues = [...character[field]] as Character[typeof field];
+            nextValues[index] = nextValue;
+            updateField(field, nextValues);
+          }, isLocked))}
+        </div>;
       case "colors":
-        return <div className="color-list"><span><i className={`color-dot color-${character.colors[0]}`} />メイン：{character.colors[0]}</span><span><i className={`color-dot color-${character.colors[1]}`} />サブ：{character.colors[1]}</span></div>;
-      case "dice":
-        return <div className="dice-list">{character.dice.map((value, index) => <span className="die" key={index}>{value}</span>)}</div>;
+        return <div className="select-stack select-stack--colors">
+          {character.colors.map((value, index) => <label className="select-control" key={index}><span className="color-select-label"><i className={`color-dot color-${value}`} />{index === 0 ? "メイン" : "サブ"}</span><select aria-label={`${index === 0 ? "メイン" : "サブ"}カラー`} value={value} disabled={isLocked} onChange={(event) => {
+            const nextValues = [...character.colors] as Character["colors"];
+            nextValues[index] = event.target.value as Character["colors"][number];
+            updateField("colors", nextValues);
+          }}>{[value, ...colors.filter((option) => option !== character.colors[1 - index])].map((option) => <option value={option} key={option}>{option}</option>)}</select></label>)}
+        </div>;
       default:
-        return character[field];
+        const options = scalarOptions[field];
+        return renderSelect(fieldLabels[field], character[field], options, (value) => updateField(field, value), isLocked);
     }
   };
 

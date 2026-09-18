@@ -221,7 +221,6 @@ export type Character = {
   features: [Feature, Feature];
   colors: [Color, Color];
   keywords: [Keyword, Keyword];
-  dice: [number, number];
 };
 
 export type CharacterFieldKey = keyof Character;

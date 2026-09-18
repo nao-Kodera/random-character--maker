@@ -28,14 +28,6 @@ export function pickUniqueRandom<T>(options: readonly T[], count: number): T[] {
   return pool.slice(0, count);
 }
 
-export function rollD6(): number {
-  return Math.floor(Math.random() * 6) + 1;
-}
-
-export function roll2D6(): [number, number] {
-  return [rollD6(), rollD6()];
-}
-
 export function generateCharacter(): Character {
   return {
     gender: pickRandom(genders),
@@ -49,7 +41,6 @@ export function generateCharacter(): Character {
     features: pickUniqueRandom(features, 2) as Character["features"],
     colors: pickUniqueRandom(colors, 2) as Character["colors"],
     keywords: pickUniqueRandom(keywords, 2) as Character["keywords"],
-    dice: roll2D6(),
   };
 }
 
