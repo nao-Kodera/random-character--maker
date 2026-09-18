@@ -1,6 +1,7 @@
 import {
   ageGroups,
   bodyTypes,
+  clothes,
   colors,
   features,
   genders,
@@ -38,6 +39,7 @@ export function generateCharacter(): Character {
     bodyType: pickRandom(bodyTypes),
     hairLength: pickRandom(hairLengths),
     hairStyle: pickRandom(hairStyles),
+    clothes: pickRandom(clothes),
     features: pickUniqueRandom(features, 2) as Character["features"],
     colors: pickUniqueRandom(colors, 2) as Character["colors"],
     keywords: pickUniqueRandom(keywords, 2) as Character["keywords"],

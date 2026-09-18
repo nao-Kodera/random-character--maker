@@ -11,6 +11,7 @@ export function createPrompt(character: Character): string {
 体型：${character.bodyType}
 髪：${character.hairLength}
 髪型：${character.hairStyle}
+服装：${character.clothes}
 特徴：${character.features.join(" / ")}
 メインカラー：${character.colors[0]}
 サブカラー：${character.colors[1]}

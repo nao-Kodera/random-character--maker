@@ -4,6 +4,7 @@ import { useState } from "react";
 import {
   ageGroups,
   bodyTypes,
+  clothes,
   colors,
   features,
   genders,
@@ -13,6 +14,7 @@ import {
   keywords,
   occupations,
   races,
+  UNSELECTED,
   type Character,
   type CharacterFieldKey,
 } from "@/data/characterOptions";
@@ -31,13 +33,18 @@ const fieldLabels: Record<CharacterFieldKey, string> = {
   bodyType: "体つき",
   hairLength: "髪の長さ",
   hairStyle: "髪型",
+  clothes: "服装",
   features: "目立つ特徴",
   colors: "イメージカラー",
   keywords: "キーワード",
 };
 
 const fieldOrder = Object.keys(fieldLabels) as CharacterFieldKey[];
-const scalarOptions = { gender: genders, ageGroup: ageGroups, race: races, occupation: occupations, height: heights, bodyType: bodyTypes, hairLength: hairLengths, hairStyle: hairStyles } as const;
+const scalarOptions = { gender: genders, ageGroup: ageGroups, race: races, occupation: occupations, height: heights, bodyType: bodyTypes, hairLength: hairLengths, hairStyle: hairStyles, clothes } as const;
+
+function withUnselected<T extends string>(options: readonly T[]) {
+  return [UNSELECTED, ...options] as const;
+}
 
 function makeUnlockedState(): Record<CharacterFieldKey, boolean> {
   return fieldOrder.reduce((locks, key) => ({ ...locks, [key]: false }), {} as Record<CharacterFieldKey, boolean>);
@@ -84,12 +91,19 @@ export function CharacterGenerator() {
     const isLocked = locks[field];
     switch (field) {
       case "features":
+        return <div className="select-stack">
+          {character.features.map((value, index) => renderSelect(`${fieldLabels.features} ${index + 1}`, value, withUnselected(features).filter((option) => option === UNSELECTED || option !== character.features[1 - index]), (nextValue) => {
+            const nextValues = [...character.features] as Character["features"];
+            nextValues[index] = nextValue;
+            updateField("features", nextValues);
+          }, isLocked))}
+        </div>;
       case "keywords":
         return <div className="select-stack">
-          {character[field].map((value, index) => renderSelect(`${fieldLabels[field]} ${index + 1}`, value, [value, ...[...({ features, keywords }[field])].filter((option) => option !== character[field][1 - index])], (nextValue) => {
-            const nextValues = [...character[field]] as Character[typeof field];
+          {character.keywords.map((value, index) => renderSelect(`${fieldLabels.keywords} ${index + 1}`, value, withUnselected(keywords).filter((option) => option === UNSELECTED || option !== character.keywords[1 - index]), (nextValue) => {
+            const nextValues = [...character.keywords] as Character["keywords"];
             nextValues[index] = nextValue;
-            updateField(field, nextValues);
+            updateField("keywords", nextValues);
           }, isLocked))}
         </div>;
       case "colors":
@@ -98,11 +112,11 @@ export function CharacterGenerator() {
             const nextValues = [...character.colors] as Character["colors"];
             nextValues[index] = event.target.value as Character["colors"][number];
             updateField("colors", nextValues);
-          }}>{[value, ...colors.filter((option) => option !== character.colors[1 - index])].map((option) => <option value={option} key={option}>{option}</option>)}</select></label>)}
+          }}>{withUnselected(colors).filter((option) => option === UNSELECTED || option !== character.colors[1 - index]).map((option) => <option value={option} key={option}>{option}</option>)}</select></label>)}
         </div>;
       default:
         const options = scalarOptions[field];
-        return renderSelect(fieldLabels[field], character[field], options, (value) => updateField(field, value), isLocked);
+        return renderSelect(fieldLabels[field], character[field] as string, withUnselected(options), (value) => updateField(field, value as Character[typeof field]), isLocked);
     }
   };
 

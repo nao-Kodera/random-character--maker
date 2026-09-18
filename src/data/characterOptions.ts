@@ -102,6 +102,58 @@ export const hairStyles = [
   "外ハネ",
   "内巻き",
 ] as const;
+export const clothes = [
+  "Tシャツ・カットソー",
+  "シャツ・ブラウス",
+  "パーカー",
+  "ニット・カーディガン",
+  "ジャケット・ブレザー",
+  "コート",
+  "ワンピース",
+  "制服",
+  "スーツ",
+  "ドレス",
+  "和服",
+  "甲冑",
+  "ローブ",
+  "民族衣装",
+  "ストリートファッション",
+  "スポーツウェア",
+  "メイド服",
+  "執事服",
+  "デニムジャケットとジーンズ",
+  "レザージャケット",
+  "トレンチコート",
+  "ミリタリージャケット",
+  "セーラー服",
+  "学ラン",
+  "オーバーオール",
+  "ジャンプスーツ",
+  "セットアップ",
+  "ビジネスカジュアル",
+  "カフェ店員の制服",
+  "白衣",
+  "ナース服",
+  "警察官の制服",
+  "パイロットの制服",
+  "シェフの制服",
+  "作業着・つなぎ",
+  "アイドル衣装",
+  "ライブ衣装",
+  "バレエ衣装",
+  "ダンス衣装",
+  "水着",
+  "パジャマ",
+  "ゴシックロリータ",
+  "パンクファッション",
+  "サイバーパンク",
+  "テックウェア",
+  "魔法少女衣装",
+  "神官服",
+  "修道士服",
+  "旅人のマント",
+  "海賊衣装",
+] as const;
 export const features = [
   "三白眼",
   "タレ目",
@@ -205,22 +257,27 @@ export type Height = (typeof heights)[number];
 export type BodyType = (typeof bodyTypes)[number];
 export type HairLength = (typeof hairLengths)[number];
 export type HairStyle = (typeof hairStyles)[number];
+export type Clothes = (typeof clothes)[number];
 export type Feature = (typeof features)[number];
 export type Color = (typeof colors)[number];
 export type Keyword = (typeof keywords)[number];
 
+export const UNSELECTED = "未選択" as const;
+type OptionalOption<T extends string> = T | typeof UNSELECTED;
+
 export type Character = {
-  gender: Gender;
-  ageGroup: AgeGroup;
-  race: Race;
-  occupation: Occupation;
-  height: Height;
-  bodyType: BodyType;
-  hairLength: HairLength;
-  hairStyle: HairStyle;
-  features: [Feature, Feature];
-  colors: [Color, Color];
-  keywords: [Keyword, Keyword];
+  gender: OptionalOption<Gender>;
+  ageGroup: OptionalOption<AgeGroup>;
+  race: OptionalOption<Race>;
+  occupation: OptionalOption<Occupation>;
+  height: OptionalOption<Height>;
+  bodyType: OptionalOption<BodyType>;
+  hairLength: OptionalOption<HairLength>;
+  hairStyle: OptionalOption<HairStyle>;
+  clothes: OptionalOption<Clothes>;
+  features: [OptionalOption<Feature>, OptionalOption<Feature>];
+  colors: [OptionalOption<Color>, OptionalOption<Color>];
+  keywords: [OptionalOption<Keyword>, OptionalOption<Keyword>];
 };
 
 export type CharacterFieldKey = keyof Character;
