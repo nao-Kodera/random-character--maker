@@ -1,0 +1,65 @@
+@import "tailwindcss";
+
+:root {
+  --canvas: #0a0910;
+  --surface: #15131d;
+  --surface-raised: #1c1927;
+  --border: #322d42;
+  --text: #f4f1fa;
+  --muted: #aaa4b7;
+  --purple: #a875ff;
+  --purple-bright: #c4a1ff;
+  --purple-dark: #4b287f;
+  --success: #87e0b0;
+}
+
+* { box-sizing: border-box; }
+html { background: var(--canvas); }
+body { margin: 0; min-width: 320px; background: radial-gradient(circle at 50% -12%, #281b43 0, var(--canvas) 43rem); color: var(--text); font-family: Arial, "Hiragino Kaku Gothic ProN", Meiryo, sans-serif; }
+button { font: inherit; }
+button:focus-visible { outline: 3px solid var(--purple-bright); outline-offset: 3px; }
+
+.app-shell { width: min(1180px, calc(100% - 32px)); margin: 0 auto; padding: 64px 0 72px; }
+.hero { text-align: center; max-width: 720px; margin: 0 auto 54px; }
+.eyebrow { margin: 0 0 9px; color: var(--purple-bright); font-size: .7rem; font-weight: 800; letter-spacing: .16em; }
+h1, h2, p { margin-top: 0; }
+h1 { margin-bottom: 12px; font-size: clamp(2.2rem, 5vw, 3.75rem); letter-spacing: -.045em; line-height: 1.08; }
+h2 { margin-bottom: 0; font-size: 1.3rem; letter-spacing: -.02em; }
+.hero__description { color: var(--muted); margin-bottom: 27px; font-size: 1rem; }
+.randomize-button { display: inline-flex; min-height: 58px; align-items: center; justify-content: center; gap: 10px; border: 1px solid #c5a6ff; border-radius: 13px; padding: 0 27px; background: linear-gradient(135deg, #8f55e9, #6e39ba); box-shadow: 0 10px 32px #7c43d343; color: white; cursor: pointer; font-size: 1.05rem; font-weight: 800; transition: transform .15s, filter .15s; }
+.randomize-button:hover { filter: brightness(1.12); transform: translateY(-2px); }
+.randomize-button svg { width: 20px; height: 20px; }
+.lock-hint { margin: 14px 0 0; color: var(--muted); font-size: .8rem; }
+
+.section-heading, .prompt-section__heading { display: flex; align-items: end; justify-content: space-between; gap: 18px; margin-bottom: 18px; }
+.section-heading > span { color: var(--muted); font-size: .8rem; }
+.fields-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+.field-card { display: flex; min-height: 192px; flex-direction: column; border: 1px solid var(--border); border-radius: 14px; padding: 18px; background: linear-gradient(145deg, var(--surface-raised), var(--surface)); transition: border-color .18s, box-shadow .18s; }
+.field-card--locked { border-color: #8f61d5; box-shadow: inset 0 0 0 1px #8f61d53b; }
+.field-card__heading { display: flex; min-height: 25px; align-items: center; justify-content: space-between; gap: 8px; }
+.field-card__heading h2 { color: #cbc5d6; font-size: .85rem; font-weight: 700; }
+.lock-state { border-radius: 999px; padding: 4px 7px; background: #4d2d7d; color: #e2d3ff; font-size: .66rem; font-weight: 700; }
+.field-card__value { display: flex; min-height: 60px; flex: 1; align-items: center; padding: 12px 0; font-size: 1.17rem; font-weight: 800; line-height: 1.45; }
+.field-card__actions { display: flex; gap: 8px; }
+.field-button, .copy-button { display: inline-flex; min-height: 34px; align-items: center; justify-content: center; gap: 6px; border: 1px solid #4a435a; border-radius: 8px; padding: 5px 9px; background: #211e2b; color: #d9d3e5; cursor: pointer; font-size: .75rem; font-weight: 700; transition: background .15s, border-color .15s; }
+.field-button:hover:not(:disabled), .copy-button:hover { border-color: #9475c9; background: #2b2538; }
+.field-button:disabled { cursor: not-allowed; opacity: .42; }
+.field-button--active { border-color: #9872d6; background: #3b2857; color: #eadfff; }
+.field-button svg, .copy-button svg { width: 14px; height: 14px; }
+.tag-list, .color-list, .dice-list { display: flex; flex-wrap: wrap; align-items: center; gap: 7px; }
+.tag { border: 1px solid #56436e; border-radius: 999px; padding: 5px 9px; background: #2a2039; color: #e3d6ff; font-size: .88rem; white-space: nowrap; }
+.color-list { flex-direction: column; align-items: flex-start; gap: 7px; font-size: .92rem; }
+.color-list span { display: inline-flex; align-items: center; gap: 7px; }
+.color-dot { width: 12px; height: 12px; border: 1px solid #ffffff73; border-radius: 50%; background: currentColor; }
+.color-黒 { color: #16141b; }.color-白 { color: #f5f4f7; }.color-赤 { color: #e34f5e; }.color-青 { color: #4d8fe8; }.color-緑 { color: #53b978; }.color-黄 { color: #e3c652; }.color-紫 { color: #a86de8; }.color-ピンク { color: #e985bd; }.color-橙 { color: #ed9a49; }.color-金 { color: #cda533; }.color-銀 { color: #aeb5c0; }.color-水色 { color: #78cde9; }.color-紺 { color: #354985; }.color-藍 { color: #5364b1; }.color-茶 { color: #986b47; }.color-灰 { color: #9aa1ad; }.color-ベージュ { color: #d4ba91; }.color-エメラルド { color: #3bba96; }.color-クリーム { color: #f4e4ad; }
+.dice-list { gap: 12px; }
+.die { display: grid; width: 39px; height: 39px; place-items: center; border: 1px solid #aa82ee; border-radius: 9px; background: #2e1f45; color: #f1eaff; font-size: 1.25rem; }
+
+.prompt-section { margin-top: 50px; border: 1px solid var(--border); border-radius: 16px; padding: 22px; background: #121019; }
+.prompt-section__heading { align-items: center; margin-bottom: 16px; }
+.copy-button { min-height: 38px; padding: 6px 12px; border-color: #765ca0; background: #2d2340; color: #f1e9ff; }
+.copy-error { margin: -6px 0 12px; color: #ffabb6; font-size: .8rem; }
+.prompt-output { overflow-x: auto; max-height: 520px; margin: 0; border: 1px solid #2d2938; border-radius: 10px; padding: 18px; background: #0c0b10; color: #d5d0df; font-family: ui-monospace, SFMono-Regular, Consolas, monospace; font-size: .8rem; line-height: 1.75; white-space: pre-wrap; }
+
+@media (max-width: 860px) { .fields-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 560px) { .app-shell { width: min(100% - 24px, 1180px); padding: 40px 0 48px; } .hero { margin-bottom: 40px; } .hero__description { line-height: 1.7; } .randomize-button { width: 100%; } .fields-grid { grid-template-columns: 1fr; gap: 11px; } .field-card { min-height: 174px; } .section-heading { align-items: start; } .section-heading > span { padding-top: 6px; text-align: right; } .prompt-section { margin-top: 36px; padding: 16px; } .prompt-section__heading { align-items: start; } .prompt-output { padding: 14px; font-size: .75rem; } }
